@@ -151,8 +151,8 @@ public class Server extends Thread {
                 countriesByColor.put(c.getColor(), c);
             }
             try {
-                System.out.println("Connection to ChatServer from "
-                        + socket.getInetAddress() + ":" + socket.getPort());
+//                System.out.println("Connection to ChatServer from "
+//                        + socket.getInetAddress() + ":" + socket.getPort());
 
                 DataInputStream in = new DataInputStream(socket.getInputStream());
                 out = new DataOutputStream(socket.getOutputStream());

@@ -1,5 +1,7 @@
 package game;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -12,9 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -42,7 +46,19 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             connectWithServer();
         } catch (IOException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            (new Thread() {
+                @Override
+                public void run() {
+                    Server.main(null);
+                }
+            }).start();
+            System.out.println("Launchinmg new server, none found");
+            try {
+                TimeUnit.SECONDS.sleep(3);
+                connectWithServer();
+            } catch (IOException | InterruptedException ex1) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
 
         countries = Country.readCountries("countriesWithColAndCentroids.csv");
@@ -104,6 +120,11 @@ public class MainFrame extends javax.swing.JFrame {
         String playerName = args[0];
         String playerColor = args[1];
         game = new MainFrame(playerName, playerColor);
+        try {
+            UIManager.setLookAndFeel(new FlatIntelliJLaf());
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
+        }
         game.setVisible(true);
         game.setLocationRelativeTo(null);
         game.setTitle("Game a bout conquering stuff: player " + playerName);

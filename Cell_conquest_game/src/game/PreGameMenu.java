@@ -4,9 +4,11 @@
  */
 package game;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.UIManager;
 
 /**
  *
@@ -125,6 +127,11 @@ public class PreGameMenu extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        try {
+            UIManager.setLookAndFeel(new FlatIntelliJLaf());
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
+        }
         PreGameMenu menu = new PreGameMenu();
         menu.setVisible(true);
         menu.setLocationRelativeTo(null);

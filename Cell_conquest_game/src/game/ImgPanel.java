@@ -28,6 +28,9 @@ public class ImgPanel extends JPanel {
         try {
             this.mapImage = ImageIO.read(new File("voidMap.png"));
             this.colorMaskMap = ImageIO.read(new File("map.png"));
+            shiftX = -mapImage.getWidth()/4;
+            shiftY = -mapImage.getHeight()/4;
+            System.out.println("X:"+shiftX+"Y:"+shiftY);
         } catch (IOException ex) {
             Logger.getLogger(ImgPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
